@@ -8,8 +8,9 @@ from matplotlib import pyplot as plt
 class CrittersCipher:
     
     def __init__(self):
+        self.encrypting = True
         self.binstrLength = None
-        self.blockDimensions = [100,100]
+        self.blockDimensions = [10,10]
         n = self.blockDimensions[0]
         initialGrid = np.random.choice(2, n**2, p=[.5, .5]).reshape(n, n)
         self.img = plt.imshow(initialGrid, cmap='gray', interpolation='nearest')
@@ -30,6 +31,10 @@ class CrittersCipher:
                 self.animate(plainblocks)
         ciphertext = self.isolateResult(plainblocks)
         return ciphertext
+
+    def decrypt(self, ciphertext, cycles):
+        # self.encrypting = False
+        return self.encrypt(ciphertext, cycles)
 
     def isolateResult(self, plainblocks):
         binstr = ""
@@ -58,17 +63,23 @@ class CrittersCipher:
                 newRow = []
                 for y in range(self.blockDimensions[1]):
                     if count >= len(bin_str):
-                        r = random.random()
-                        if r < .2:
-                            newRow.append(1)
-                        else:
-                            newRow.append(0)
+                        # r = random.random()
+                        # if r < .2:
+                        #     newRow.append(1)
+                        # else:
+                        #     newRow.append(0)
+                        newRow.append(0)
                     else:
                         newRow.append(int(bin_str[count]))
                         count += 1
                 newBlock.append(newRow)
             result.append(newBlock)
+        binary_chunks = [bin_str[i:i + 8] for i in range(0, len(bin_str), 8)]
+        ascii_characters = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
+        print("input string", plaintext)
+        print("original as string", ascii_characters)
         print("original", bin_str)
+        print("original as block", result)
         return result
 
     def runOneEncryptionCycle(self, plainblocks):
@@ -101,18 +112,11 @@ class CrittersCipher:
                         plainblocks[b][x][y + 1] = temp
         return plainblocks
 
-
-
     def flip(self, val):
         if val == 1:
             return 0
         return 1
 
 
-
-
 critters = CrittersCipher()
-ciphertext = critters.encrypt("asdfkjlsa", 10)
-print("ENCRYPTION RESULT", ciphertext)
-plaintext = critters.encrypt(ciphertext, 10)
-print("DECRYPTION RESULT", plaintext)
+critters.encrypt('sadfsadf', 10000)
