@@ -51,9 +51,9 @@ class CrittersCipher:
         ascii_characters = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
         return ascii_characters
 
+
     def convertToBitsThenBlocks(self, plaintext):
-        hex_str = binascii.hexlify(plaintext.encode())
-        bin_str = bin(int(hex_str, 16))[2:].zfill(8 * ((len(hex_str) + 1) // 2))
+        bin_str = ''.join(format(ord(char), '08b') for char in plaintext)
         self.binstrLength = len(bin_str)
         result = []
         count = 0
@@ -63,11 +63,6 @@ class CrittersCipher:
                 newRow = []
                 for y in range(self.blockDimensions[1]):
                     if count >= len(bin_str):
-                        # r = random.random()
-                        # if r < .2:
-                        #     newRow.append(1)
-                        # else:
-                        #     newRow.append(0)
                         newRow.append(0)
                     else:
                         newRow.append(int(bin_str[count]))
@@ -76,11 +71,43 @@ class CrittersCipher:
             result.append(newBlock)
         binary_chunks = [bin_str[i:i + 8] for i in range(0, len(bin_str), 8)]
         ascii_characters = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
-        print("input string", plaintext)
-        print("original as string", ascii_characters)
-        print("original", bin_str)
-        print("original as block", result)
+        print("Input string:", plaintext)
+        print("Original as string:", ascii_characters)
+        print("Original:", bin_str)
+        print("Original as block:", result)
         return result
+
+
+    # def convertToBitsThenBlocks(self, plaintext):
+    #     hex_str = binascii.hexlify(plaintext.encode())
+    #     bin_str = bin(int(hex_str, 16))[2:].zfill(8 * ((len(hex_str) + 1) // 2))
+    #     self.binstrLength = len(bin_str)
+    #     result = []
+    #     count = 0
+    #     while count < len(bin_str):
+    #         newBlock = []
+    #         for x in range(self.blockDimensions[0]):
+    #             newRow = []
+    #             for y in range(self.blockDimensions[1]):
+    #                 if count >= len(bin_str):
+    #                     # r = random.random()
+    #                     # if r < .2:
+    #                     #     newRow.append(1)
+    #                     # else:
+    #                     #     newRow.append(0)
+    #                     newRow.append(0)
+    #                 else:
+    #                     newRow.append(int(bin_str[count]))
+    #                     count += 1
+    #             newBlock.append(newRow)
+    #         result.append(newBlock)
+    #     binary_chunks = [bin_str[i:i + 8] for i in range(0, len(bin_str), 8)]
+    #     ascii_characters = ''.join([chr(int(chunk, 2)) for chunk in binary_chunks])
+    #     print("input string", plaintext)
+    #     print("original as string", ascii_characters)
+    #     print("original", bin_str)
+    #     print("original as block", result)
+    #     return result
 
     def runOneEncryptionCycle(self, plainblocks):
         for b in range(len(plainblocks)):
@@ -118,5 +145,5 @@ class CrittersCipher:
         return 1
 
 
-critters = CrittersCipher()
-critters.encrypt('sadfsadf', 10000)
+# critters = CrittersCipher()
+# critters.encrypt('sadfsadf', 1000)
