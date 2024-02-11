@@ -26,7 +26,8 @@ class Controller:
         option = input()
         if option == "1" or option == 1:
             self.publicKey = random.randint(1, 3)
-            self.secretKey = 4 - self.publicKey
+            self.secretKey = (4 - self.publicKey) + (4 * random.randint(10,50))
+            self.publicKey += + (4 * random.randint(10,50))
             self.cipher = CrittersCipher()
             print("Your Public Key is:", self.publicKey)
             print("Your Secret Key is:", self.secretKey)
