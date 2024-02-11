@@ -45,7 +45,7 @@ class Controller:
         else:
             self.cipher = CrittersCipher()
         ciphertext = self.cipher.encrypt(plaintext, int(pubKey))
-        print(ciphertext)
+        print("Your encrypted Result:", ciphertext)
         self.promptWhatToDo()
 
     def promptDecryptionMethod(self):
@@ -60,5 +60,5 @@ class Controller:
         else:
             self.cipher = CrittersCipher()
         plaintext = self.cipher.decrypt(plaintext, int(privKey))
-        print(plaintext)
+        print("Your Decrypted Result:", plaintext)
         self.promptWhatToDo()
